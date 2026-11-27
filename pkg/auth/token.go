@@ -17,12 +17,13 @@ var (
 )
 
 // ParseBearer extracts the token from an "Authorization: Bearer <token>" header.
+// The Bearer scheme prefix is matched case-insensitively.
 func ParseBearer(header string) (string, error) {
-	const prefix = "Bearer "
-	if !strings.HasPrefix(header, prefix) {
+	scheme, rest, ok := strings.Cut(header, " ")
+	if !ok || !strings.EqualFold(scheme, "Bearer") {
 		return "", ErrMalformedHeader
 	}
-	token := strings.TrimSpace(strings.TrimPrefix(header, prefix))
+	token := strings.TrimSpace(rest)
 	if token == "" {
 		return "", ErrMalformedHeader
 	}
