@@ -16,3 +16,8 @@ func Average(values []float64) float64 {
 	}
 	return total / float64(len(values))
 }
+
+// Multiply returns the product of a and b.
+func Multiply(a, b int) int {
+	return a * b
+}

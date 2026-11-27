@@ -19,3 +19,12 @@ func TestAverage(t *testing.T) {
 		t.Fatalf("Average([2,4,6]) = %v, want 4", got)
 	}
 }
+
+func TestMultiply(t *testing.T) {
+	if got := Multiply(6, 7); got != 42 {
+		t.Fatalf("Multiply(6, 7) = %d, want 42", got)
+	}
+	if got := Multiply(-3, 5); got != -15 {
+		t.Fatalf("Multiply(-3, 5) = %d, want -15", got)
+	}
+}
