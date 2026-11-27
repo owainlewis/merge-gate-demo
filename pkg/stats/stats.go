@@ -16,3 +16,14 @@ func Average(values []float64) float64 {
 	}
 	return total / float64(len(values))
 }
+
+// Clamp restricts value to the inclusive range [minVal, maxVal].
+func Clamp(value, minVal, maxVal int) int {
+	if value < minVal {
+		return minVal
+	}
+	if value > maxVal {
+		return maxVal
+	}
+	return value
+}
