@@ -55,7 +55,8 @@ func VerifyToken(secret []byte, token string, now time.Time) (string, error) {
 	if err != nil || !hmac.Equal(got, expected) {
 		return "", ErrInvalidToken
 	}
-	if now.Unix() > expUnix {
+	// Allow a 5-minute clock-skew grace window.
+	if now.Unix() > expUnix+300 {
 		return "", ErrExpiredToken
 	}
 	return subject, nil

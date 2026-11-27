@@ -32,3 +32,12 @@ func TestSignAndVerifyToken(t *testing.T) {
 		t.Fatalf("expected ErrInvalidToken, got %v", err)
 	}
 }
+
+func TestVerifyTokenClockSkewGrace(t *testing.T) {
+	secret := []byte("demo-signing-secret")
+	now := time.Unix(1_700_000_000, 0)
+	token := SignToken(secret, "user_42", now.Add(time.Hour))
+	if _, err := VerifyToken(secret, token, now.Add(time.Hour+2*time.Minute)); err != nil {
+		t.Fatalf("expected token within 5m grace window to verify, got %v", err)
+	}
+}
