@@ -23,6 +23,33 @@ func TestAverage(t *testing.T) {
 	}
 }
 
+func TestClamp(t *testing.T) {
+	tests := []struct {
+		name           string
+		value          int
+		minVal, maxVal int
+		want           int
+	}{
+		{name: "below min", value: -5, minVal: 0, maxVal: 10, want: 0},
+		{name: "at min", value: 0, minVal: 0, maxVal: 10, want: 0},
+		{name: "within bounds", value: 5, minVal: 0, maxVal: 10, want: 5},
+		{name: "at max", value: 10, minVal: 0, maxVal: 10, want: 10},
+		{name: "above max", value: 15, minVal: 0, maxVal: 10, want: 10},
+		{name: "negative range within bounds", value: -3, minVal: -10, maxVal: -1, want: -3},
+		{name: "equal bounds value below", value: 2, minVal: 5, maxVal: 5, want: 5},
+		{name: "equal bounds value equal", value: 5, minVal: 5, maxVal: 5, want: 5},
+		{name: "equal bounds value above", value: 8, minVal: 5, maxVal: 5, want: 5},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := Clamp(tc.value, tc.minVal, tc.maxVal); got != tc.want {
+				t.Fatalf("Clamp(%d, %d, %d) = %d, want %d", tc.value, tc.minVal, tc.maxVal, got, tc.want)
+			}
+		})
+	}
+}
+
 func TestMedian(t *testing.T) {
 	tests := []struct {
 		name   string
